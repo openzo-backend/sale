@@ -4,8 +4,8 @@ import "time"
 
 type OrderItem struct {
 	ID        int    `json:"id"`
-	ProductID string `json:"product_id"`
-	SaleId    string `json:"sale_id"`
+	ProductID string `json:"product_id" gorm:"size:36"`
+	SaleId    string `json:"sale_id" gorm:"size:36"`
 	Quantity  int    `json:"quantity"`
 }
 
@@ -25,6 +25,6 @@ type Customer struct {
 	Name       string `json:"name"`
 	Phone      string `json:"phone"`
 	Address    string `json:"address"`
-	UserDataId int    `json:"user_data_id"`
-	SaleId     string `json:"sale_id"`
+	UserDataId string `json:"user_data_id" gorm:"size:36"`
+	SaleId     string `json:"sale_id" gorm:"size:36"`
 }
