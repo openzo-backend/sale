@@ -65,6 +65,8 @@ func (h *Handler) UpdateSale(ctx *gin.Context) {
 		return
 	}
 
+	
+
 	updatedSale, err := h.saleService.UpdateSale(ctx, sale)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
