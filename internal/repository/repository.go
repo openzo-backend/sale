@@ -63,8 +63,9 @@ func (r *saleRepository) GetSalesByStoreID(storeID string) ([]models.Sale, error
 
 func (r *saleRepository) GetSalesByUserDataID(user_data_id string) ([]models.Sale, error) {
 	var Sales []models.Sale
-	
-	tx := r.db.Preload("OrderItems").Preload("Customer").Where("customer.user_data_id = ?", user_data_id).Find(&Sales)
+	tx := r.db.Joins("Customer").Where("user_data_id = ?", user_data_id).Preload("OrderItems").Preload("Customer").Find(&Sales)
+
+	// tx := r.db.Preload("OrderItems").Preload("Customer").Where("customer.user_data_id = ?", user_data_id).Find(&Sales)
 	if tx.Error != nil {
 		return []models.Sale{}, tx.Error
 	}
