@@ -229,9 +229,9 @@ func (s *saleService) ChangeSaleStatus(ctx *gin.Context, id string, status strin
 	if err != nil {
 		return models.Sale{}, err
 	}
-
+	sale, _ := s.saleRepository.GetSaleByID(id)
 	topic := "sales"
-	saleMsg, _ := json.Marshal(updatedSale)
+	saleMsg, _ := json.Marshal(sale)
 	msg := &kafka.Message{
 		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
 		Value:          saleMsg,
