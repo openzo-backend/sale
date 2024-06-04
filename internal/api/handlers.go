@@ -58,14 +58,38 @@ func (h *Handler) GetSalesByStoreID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, sales)
 }
 
+func (h *Handler) GetSalesByUserDataID(ctx *gin.Context) {
+	userDataID := ctx.Param("id")
+
+	sales, err := h.saleService.GetSalesByUserDataID(ctx, userDataID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, sales)
+
+}
+
+func (h *Handler) ChangeSaleStatus(ctx *gin.Context) {
+	id := ctx.Param("id")
+	status := ctx.Param("status")
+
+	changedSale, err := h.saleService.ChangeSaleStatus(ctx, id, status)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, changedSale)
+}
+
 func (h *Handler) UpdateSale(ctx *gin.Context) {
 	var sale models.Sale
 	if err := ctx.BindJSON(&sale); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	
 
 	updatedSale, err := h.saleService.UpdateSale(ctx, sale)
 	if err != nil {

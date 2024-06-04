@@ -9,23 +9,24 @@ type OrderItem struct {
 }
 
 type Sale struct {
-	ID          string   `json:"id"`
-	Customer    Customer `json:"customer"`
-	OrderTime   string   `json:"order_time"`
-	TotalAmount float64  `json:"total_amount"`
-	AmountPaid  float64  `json:"amount_paid"`
-	PaymentMode string   `json:"payment_mode"`
-	StoreID     string   `json:"store_id"`
+	ID                 string   `json:"id"`
+	Customer           Customer `json:"customer"`
+	OrderTime          string   `json:"order_time"`
+	TotalAmount        float64  `json:"total_amount"`
+	UndiscountedAmount float64  `json:"undiscounted_amount"`
+	AmountPaid         float64  `json:"amount_paid"`
+	PaymentMode        string   `json:"payment_mode"`
+	StoreID            string   `json:"store_id"`
 
 	OrderItems []OrderItem `json:"order_items"`
 
-	Type string `json:"type"`
-	Note string `json:"note,omitempty"`
+	Type   string `json:"type"`
+	Status string `json:"status,omitempty" `
 
 	// Restaurant specific fields
 	TableId   string `json:"table_id,omitempty"`
 	Occupants int    `json:"occupants,omitempty"`
-	Status    string `json:"status,omitempty" `
+	Note      string `json:"note,omitempty"`
 }
 
 type Customer struct {

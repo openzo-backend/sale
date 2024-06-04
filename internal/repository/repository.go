@@ -12,6 +12,10 @@ type SaleRepository interface {
 	GetSaleByID(id string) (models.Sale, error)
 	GetSalesByStoreID(storeID string) ([]models.Sale, error)
 	UpdateSale(Sale models.Sale) (models.Sale, error)
+	// GetSalesByUserDataID(ctx *gin.Context, user_data_id string) ([]models.Sale, error)
+	GetSalesByUserDataID(user_data_id string) ([]models.Sale, error)
+	ChangeSaleStatus(id string, status string) (models.Sale, error)
+	// ChangeSaleStatus(ctx *gin.Context, id string, status string) (models.Sale, error)
 	// Add more methods for other Sale operations (GetSaleByEmail, UpdateSale, etc.)
 
 }
@@ -55,6 +59,27 @@ func (r *saleRepository) GetSalesByStoreID(storeID string) ([]models.Sale, error
 	}
 
 	return Sales, nil
+}
+
+func (r *saleRepository) GetSalesByUserDataID(user_data_id string) ([]models.Sale, error) {
+	var Sales []models.Sale
+	
+	tx := r.db.Preload("OrderItems").Preload("Customer").Where("customer.user_data_id = ?", user_data_id).Find(&Sales)
+	if tx.Error != nil {
+		return []models.Sale{}, tx.Error
+	}
+
+	return Sales, nil
+}
+
+func (r *saleRepository) ChangeSaleStatus(id string, status string) (models.Sale, error) {
+	var Sale models.Sale
+	tx := r.db.Model(&Sale).Where("id = ?", id).Update("status", status)
+	if tx.Error != nil {
+		return models.Sale{}, tx.Error
+	}
+
+	return Sale, nil
 }
 
 func (r *saleRepository) UpdateSale(Sale models.Sale) (models.Sale, error) {
