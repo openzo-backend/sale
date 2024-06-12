@@ -1,11 +1,13 @@
 package models
 
 type OrderItem struct {
-	ID        int    `json:"id"`
-	ProductID string `json:"product_id" gorm:"size:36"`
-	SaleId    string `json:"sale_id" gorm:"size:36"`
-	Quantity  int    `json:"quantity"`
-	Status    string `json:"status,omitempty"`
+	ID             int    `json:"id"`
+	ProductID      string `json:"product_id" gorm:"size:36"`
+	SizeVariantID  int    `json:"size_variant_id"`
+	ColorVariantID int    `json:"color_variant_id"`
+	SaleId         string `json:"sale_id" gorm:"size:36"`
+	Quantity       int    `json:"quantity"`
+	Status         string `json:"status,omitempty"`
 }
 
 type Sale struct {
