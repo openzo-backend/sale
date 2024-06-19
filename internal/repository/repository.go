@@ -84,10 +84,23 @@ func (r *saleRepository) ChangeSaleStatus(id string, status string) (models.Sale
 }
 
 func (r *saleRepository) UpdateSale(Sale models.Sale) (models.Sale, error) {
-	tx := r.db.Save(&Sale)
+
+	r.db.Model(&Sale).Association("OrderItems").Replace(&Sale.OrderItems)
+	r.db.Model(&Sale).Association("Customer").Replace(&Sale.Customer)
+	tx := r.db.Model(&Sale).Updates(Sale)
 	if tx.Error != nil {
 		return models.Sale{}, tx.Error
 	}
+
+	// tx = r.db.Model(&Sale).Updates(Sale)
+	// if tx.Error != nil {
+	// 	return models.Sale{}, tx.Error
+	// }
+
+	// tx := r.db.Save(&Sale)
+	// if tx.Error != nil {
+	// 	return models.Sale{}, tx.Error
+	// }
 
 	return Sale, nil
 }
