@@ -9,9 +9,9 @@ import (
 )
 
 type User struct {
-	ID    string
-	Email string
-	Name  string
+	ID         string
+	Phone      string
+	IsVerified bool
 }
 
 type Middleware struct {
@@ -36,16 +36,14 @@ func VerifyTokenAndGetUser(c pb.UserServiceClient, ctx context.Context, token st
 
 	var user User
 	user.ID = res.GetId()
-	user.Email = res.GetEmail()
-	user.Name = res.GetName()
+	user.Phone = res.GetPhone()
+	user.IsVerified = res.GetIsVerified()
 	fmt.Println(user)
 	return user, nil
 
 }
 
-
-
-func (m *Middleware ) JwtMiddleware(c *gin.Context) {
+func (m *Middleware) JwtMiddleware(c *gin.Context) {
 	//get the token from the header
 	token := c.GetHeader("Authorization")
 	if token == "" {
