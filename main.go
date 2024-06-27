@@ -88,12 +88,12 @@ func main() {
 	// router.Use(middlewares.JwtMiddleware(c))
 
 	router.GET("/store/:id", handler.GetSalesByStoreID)
-	router.GET("/user/:id", handler.GetSalesByUserDataID)
 	router.PUT("/:id/status/:status", handler.ChangeSaleStatus)
 	router.POST("/", handler.CreateSale)
 	router.GET("/:id", handler.GetSaleByID)
 	router.PUT("/", handler.UpdateSale)
 	router.Use(middlewares.NewMiddleware(c).JwtMiddleware)
+	router.GET("/user", handler.GetSalesByUserDataID)
 
 	// router.Use(middlewares.JwtMiddleware)
 

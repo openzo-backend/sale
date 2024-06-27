@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/tanush-128/openzo_backend/sale/internal/middlewares"
 	"github.com/tanush-128/openzo_backend/sale/internal/models"
 	"github.com/tanush-128/openzo_backend/sale/internal/service"
 )
@@ -59,9 +60,13 @@ func (h *Handler) GetSalesByStoreID(ctx *gin.Context) {
 }
 
 func (h *Handler) GetSalesByUserDataID(ctx *gin.Context) {
-	userDataID := ctx.Param("id")
+	// userDataID := ctx.Param("id")
 
-	sales, err := h.saleService.GetSalesByUserDataID(ctx, userDataID)
+	// user := ctx.MustGet("user")
+	user := ctx.MustGet("user").(middlewares.User)
+
+	log.Printf("userDataID: %s", user.ID)
+	sales, err := h.saleService.GetSalesByUserDataID(ctx, user.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
