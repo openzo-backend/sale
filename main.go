@@ -65,13 +65,6 @@ func main() {
 	c := pb.NewUserServiceClient(conn)
 	UserClient = c
 
-	// productConn, err := grpc.Dial(cfg.ProductGrpc, grpc.WithInsecure())
-	// if err != nil {
-	// 	log.Fatalf("did not connect: %v", err)
-	// }
-	// defer productConn.Close()
-	// productClient := pb.NewProductServiceClient(productConn)
-
 	saleRepository := repository.NewSaleRepository(db)
 	SaleService := service.NewSaleService(saleRepository, p)
 

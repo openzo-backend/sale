@@ -83,26 +83,14 @@ func (r *saleRepository) ChangeSaleStatus(id string, status string) (models.Sale
 	return Sale, nil
 }
 
-func (r *saleRepository) UpdateSale(Sale models.Sale) (models.Sale, error) {
+func (r *saleRepository) UpdateSale(sale models.Sale) (models.Sale, error) {
 
-	r.db.Model(&Sale).Association("OrderItems").Replace(&Sale.OrderItems)
-	r.db.Model(&Sale).Association("Customer").Replace(&Sale.Customer)
-	tx := r.db.Model(&Sale).Updates(Sale)
+	tx := r.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&sale)
 	if tx.Error != nil {
 		return models.Sale{}, tx.Error
 	}
 
-	// tx = r.db.Model(&Sale).Updates(Sale)
-	// if tx.Error != nil {
-	// 	return models.Sale{}, tx.Error
-	// }
-
-	// tx := r.db.Save(&Sale)
-	// if tx.Error != nil {
-	// 	return models.Sale{}, tx.Error
-	// }
-
-	return Sale, nil
+	return sale, nil
 }
 
 // Implement other repository methods (GetSaleByID, GetSaleByEmail, UpdateSale, etc.) with proper error handling
