@@ -162,6 +162,7 @@ type SaleService interface {
 	GetSalesByUserDataID(ctx *gin.Context, user_data_id string) ([]models.Sale, error)
 	ChangeSaleStatus(ctx *gin.Context, id string, status string) (models.Sale, error)
 	UpdateSale(ctx *gin.Context, req models.Sale) (models.Sale, error)
+	DeleteSale(ctx *gin.Context, id string) error
 }
 
 type saleService struct {
@@ -239,4 +240,15 @@ func (s *saleService) ChangeSaleStatus(ctx *gin.Context, id string, status strin
 	s.kafkaProducer.Produce(msg, nil)
 
 	return updatedSale, nil
+}
+
+//delete sale
+
+func (s *saleService) DeleteSale(ctx *gin.Context, id string) error {
+	err := s.saleRepository.DeleteSale(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -87,6 +87,7 @@ func main() {
 	router.PUT("/", handler.UpdateSale)
 	router.Use(middlewares.NewMiddleware(c).JwtMiddleware)
 	router.GET("/user", handler.GetSalesByUserDataID)
+	router.DELETE("/:id", handler.DeleteSale)
 
 	// router.Use(middlewares.JwtMiddleware)
 

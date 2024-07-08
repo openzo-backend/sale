@@ -104,3 +104,15 @@ func (h *Handler) UpdateSale(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, updatedSale)
 }
+
+func (h *Handler) DeleteSale(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	err := h.saleService.DeleteSale(ctx, id)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Sale deleted successfully"})
+}

@@ -15,6 +15,7 @@ type SaleRepository interface {
 	// GetSalesByUserDataID(ctx *gin.Context, user_data_id string) ([]models.Sale, error)
 	GetSalesByUserDataID(user_data_id string) ([]models.Sale, error)
 	ChangeSaleStatus(id string, status string) (models.Sale, error)
+	DeleteSale(id string) error
 	// ChangeSaleStatus(ctx *gin.Context, id string, status string) (models.Sale, error)
 	// Add more methods for other Sale operations (GetSaleByEmail, UpdateSale, etc.)
 
@@ -91,6 +92,15 @@ func (r *saleRepository) UpdateSale(sale models.Sale) (models.Sale, error) {
 	}
 
 	return sale, nil
+}
+
+func (r *saleRepository) DeleteSale(id string) error {
+	tx := r.db.Where("id = ?", id).Delete(&models.Sale{})
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	return nil
 }
 
 // Implement other repository methods (GetSaleByID, GetSaleByEmail, UpdateSale, etc.) with proper error handling
