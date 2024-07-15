@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"log"
+
 	"github.com/google/uuid"
 	"github.com/tanush-128/openzo_backend/sale/internal/models"
 
@@ -66,11 +68,13 @@ func (r *saleRepository) GetSalesByUserDataID(user_data_id string) ([]models.Sal
 	var Sales []models.Sale
 	tx := r.db.Joins("Customer").Where("user_data_id = ?", user_data_id).Preload("OrderItems").Preload("Customer").Find(&Sales)
 
-	// tx := r.db.Preload("OrderItems").Preload("Customer").Where("customer.user_data_id = ?", user_data_id).Find(&Sales)
 	if tx.Error != nil {
 		return []models.Sale{}, tx.Error
 	}
-
+	// log.Printf("Sales: %+v", Sales)
+	for _, sale := range Sales {
+		log.Printf("Sale: %+v", sale.ID)
+	}
 	return Sales, nil
 }
 

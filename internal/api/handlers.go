@@ -60,11 +60,7 @@ func (h *Handler) GetSalesByStoreID(ctx *gin.Context) {
 }
 
 func (h *Handler) GetSalesByUserDataID(ctx *gin.Context) {
-	// userDataID := ctx.Param("id")
-
-	// user := ctx.MustGet("user")
 	user := ctx.MustGet("user").(middlewares.User)
-
 	log.Printf("userDataID: %s", user.ID)
 	sales, err := h.saleService.GetSalesByUserDataID(ctx, user.ID)
 	if err != nil {
