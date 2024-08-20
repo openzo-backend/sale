@@ -31,6 +31,8 @@ func (h *Handler) CreateSale(ctx *gin.Context) {
 		return
 	}
 
+	
+
 	ctx.JSON(http.StatusCreated, createdSale)
 
 }

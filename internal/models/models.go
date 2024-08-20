@@ -38,10 +38,11 @@ type Sale struct {
 }
 
 type Customer struct {
-	ID         int    `json:"id"`
-	Name       string `json:"name"`
-	Phone      string `json:"phone"`
-	Address    string `json:"address"`
-	UserDataId string `json:"user_data_id" gorm:"size:36"`
-	SaleId     string `json:"sale_id" gorm:"size:36"`
+	ID              int    `json:"id"`
+	Name            string `json:"name"`
+	Phone           string `json:"phone"`
+	Address         string `json:"address"`
+	UserDataID      string `json:"user_data_id" gorm:"size:36"`
+	StoreCustomerID string `json:"store_customer_id" gorm:"size:36"`
+	SaleId          string `json:"sale_id" gorm:"size:36"`
 }

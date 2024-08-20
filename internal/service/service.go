@@ -40,6 +40,8 @@ func (s *saleService) CreateSale(ctx *gin.Context, req models.Sale) (models.Sale
 		return models.Sale{}, err // Propagate error
 	}
 
+	
+
 	// Produce message to Kafka
 	topic := "sales"
 	saleMsg, _ := json.Marshal(createdSale)
