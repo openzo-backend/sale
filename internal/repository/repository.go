@@ -90,7 +90,13 @@ func (r *saleRepository) ChangeSaleStatus(id string, status string) (models.Sale
 
 func (r *saleRepository) UpdateSale(sale models.Sale) (models.Sale, error) {
 
-	tx := r.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&sale)
+	// delete existing order items
+	tx := r.db.Where("sale_id = ?", sale.ID).Delete(&models.OrderItem{})
+	if tx.Error != nil {
+		return models.Sale{}, tx.Error
+	}
+
+	tx = r.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&sale)
 	if tx.Error != nil {
 		return models.Sale{}, tx.Error
 	}
