@@ -40,8 +40,6 @@ func (s *saleService) CreateSale(ctx *gin.Context, req models.Sale) (models.Sale
 		return models.Sale{}, err // Propagate error
 	}
 
-	
-
 	// Produce message to Kafka
 	topic := "sales"
 	saleMsg, _ := json.Marshal(createdSale)
@@ -71,8 +69,6 @@ func (s *saleService) UpdateSale(ctx *gin.Context, req models.Sale) (models.Sale
 	return updatedSale, nil
 }
 
-
-
 func (s *saleService) GetSalesByUserDataID(ctx *gin.Context, user_data_id string) ([]models.Sale, error) {
 	sales, err := s.saleRepository.GetSalesByUserDataID(user_data_id)
 	if err != nil {
@@ -98,8 +94,6 @@ func (s *saleService) ChangeSaleStatus(ctx *gin.Context, id string, status strin
 
 	return updatedSale, nil
 }
-
-
 
 func (s *saleService) DeleteSale(ctx *gin.Context, id string) error {
 	err := s.saleRepository.DeleteSale(id)
